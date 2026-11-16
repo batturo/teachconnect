@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TeachConnect</string>
+    <string name="title_activity_main">TeachConnect</string>
+    <string name="package_name">com.teachconnect.app</string>
+    <string name="custom_url_scheme">com.teachconnect.app</string>
+</resources>
