@@ -1,0 +1,16 @@
+# Website from client/dist, API as a function (netlify/functions/api.mjs).
+[build]
+  command = "npm run build"
+  publish = "client/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  directory = "netlify/functions"
+
+# Client-side routes (/login, /jobs/3, ...) all load the app.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

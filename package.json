@@ -1,0 +1,11 @@
+{
+  "name": "teachconnect",
+  "private": true,
+  "description": "Root package: only what the Netlify deployment needs. The app lives in server/ and client/.",
+  "scripts": {
+    "build": "npm --prefix server ci --omit=dev && npm --prefix client ci && npm --prefix client run build"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.0.0"
+  }
+}

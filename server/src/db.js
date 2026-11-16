@@ -5,10 +5,10 @@ import { dirname } from 'node:path';
 const path = process.env.DB_PATH || new URL('../data/teachconnect.db', import.meta.url).pathname;
 if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
 
-export const db = new DatabaseSync(path);
-db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
+// DB_JOURNAL_MODE=DELETE keeps everything in one file (used by the serverless deployment).
+const journal = process.env.DB_JOURNAL_MODE === 'DELETE' ? 'DELETE' : 'WAL';
 
-db.exec(`
+const SCHEMA = `
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY,
   role TEXT NOT NULL CHECK (role IN ('teacher','school','agency','college')),
@@ -105,7 +105,16 @@ CREATE TABLE IF NOT EXISTS notifications (
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS notifications_user ON notifications(user_id, id DESC);
-`);
+`;
+
+export let db;
+export function openDb() {
+  db = new DatabaseSync(path);
+  db.exec(`PRAGMA journal_mode = ${journal}; PRAGMA foreign_keys = ON;`);
+  db.exec(SCHEMA);
+}
+export const closeDb = () => db.close();
+openDb();
 
 export const now = () => new Date().toISOString();
 export const get = (sql, ...params) => db.prepare(sql).get(...params);

@@ -51,6 +51,14 @@ Server environment variables:
 | `SMTP_URL`, `MAIL_FROM` | Enables email for reminders and interview invitations; without it mail is only logged |
 | `REMINDER_AFTER_DAYS`, `REMINDER_GRACE_DAYS` | Default 30 and 5 |
 
+### Netlify (demo hosting)
+
+The repo is ready for Netlify: `netlify.toml` builds the website and `netlify/functions/api.mjs` runs
+the API as a function. Import the repo in Netlify and it deploys on every push; no settings or
+environment variables are needed. The database file is kept in Netlify Blobs and starts with the demo
+accounts above (`server/src/serverless.js`). This is fine for trying the portal out, but simultaneous
+writes can overwrite each other, so use a host with a persistent disk for real traffic.
+
 ## Build the mobile apps
 
 The native projects are in `client/android` and `client/ios` (Capacitor). They load the same client,
