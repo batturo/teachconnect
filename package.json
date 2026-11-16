@@ -1,11 +1,15 @@
 {
   "name": "teachconnect",
   "private": true,
-  "description": "Root package: only what the Netlify deployment needs. The app lives in server/ and client/.",
+  "description": "Root package for the Netlify deployment. The app lives in server/ and client/; the server's dependencies are repeated here so the Netlify function can load them.",
   "scripts": {
-    "build": "npm --prefix server ci --omit=dev && npm --prefix client ci && npm --prefix client run build"
+    "build": "npm --prefix client ci && npm --prefix client run build"
   },
   "dependencies": {
-    "@netlify/blobs": "^10.0.0"
+    "@netlify/blobs": "^10.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.16"
   }
 }
